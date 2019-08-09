@@ -18,6 +18,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var selectedFood = 'BURGUER';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,10 +145,109 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
               ),
+              Positioned(
+                top: 320,
+                left: 25,
+                right: 25,
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Color(0xFF262626),
+                    borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(15),
+                      bottomLeft: Radius.circular(15),
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                    ),
+                  ),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Lets explore some food here...',
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                        fontFamily: 'Montserrat',
+                        fontSize: 12,
+                      ),
+                      contentPadding: EdgeInsets.only(top: 15),
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              _buildMenuItem('BURGUER', Icons.fastfood),
+              _buildMenuItem('TEA', Icons.local_drink),
+              _buildMenuItem('BEER', Icons.local_drink),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              _buildMenuItem('CAKE', Icons.cake),
+              _buildMenuItem('COFFEE', Icons.cloud),
+              _buildMenuItem('MEAT', Icons.restaurant),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              _buildMenuItem('ICE', Icons.insert_chart),
+              _buildMenuItem('FISH', Icons.filter_tilt_shift),
+              _buildMenuItem('DONUTS', Icons.donut_small),
             ],
           ),
         ],
       ),
     );
+  }
+
+  Widget _buildMenuItem(String foodName, iconData) {
+    return InkWell(
+      splashColor: Colors.transparent,
+      onTap: () {
+        selectMenuOption(foodName);
+      },
+      child: AnimatedContainer(
+        curve: Curves.easeIn,
+        duration: Duration(milliseconds: 300),
+        height: selectedFood == foodName ? 100 : 75,
+        width: selectedFood == foodName ? 100 : 75,
+        color:
+            selectedFood == foodName ? Color(0xFFFD3566) : Colors.transparent,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              iconData,
+              color: selectedFood == foodName ? Colors.white : Colors.grey,
+              size: 25,
+            ),
+            SizedBox(height: 12),
+            Text(
+              foodName,
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+                color: selectedFood == foodName ? Colors.white : Colors.grey,
+                fontSize: 10,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  selectMenuOption(String foodName) {
+    setState(() {
+      selectedFood = foodName;
+    });
   }
 }
